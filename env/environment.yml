@@ -1,0 +1,15 @@
+name: financial_pipeline_env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - pandas
+  - pytesseract
+  - poppler
+  - opencv
+  - pip:
+      - playwright
+      - crawl4ai
+

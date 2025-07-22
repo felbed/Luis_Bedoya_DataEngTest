@@ -6,3 +6,7 @@ __pycache__/
 
 # Archivos MMD Text de los pipelines
 *.mmd
+
+# Archivos de salida de los pipelines
+task1/bronze/
+task2/silver/

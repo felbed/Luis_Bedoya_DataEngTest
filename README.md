@@ -58,7 +58,7 @@ Sigue estos pasos para configurar el entorno y ejecutar el pipeline.
 2.  **Crear el Entorno de Conda**
     Este comando leerá el archivo `environment.yml` y creará un entorno aislado con todas las dependencias necesarias.
     ```bash
-    conda env create -f environment.yml
+    conda env create -f env/environment.yml
     ```
 
 3.  **Activar el Entorno**
@@ -67,7 +67,13 @@ Sigue estos pasos para configurar el entorno y ejecutar el pipeline.
     conda activate financial_pipeline_env
     ```
 
-4.  **Configurar las Credenciales**
+4. **Instalar el Chromium Driver**
+   Se deberán descargar los navegadores necesarios, incluido Chromium
+   ```bash
+   playwright install
+   ```
+
+5.  **Configurar las Credenciales**
     El pipeline requiere una clave de API para acceder a Mistral.
     - Dentro de `env`, crea un archivo llamado `.env`.
     - Añade tu clave de API al archivo `.env` de la siguiente manera:

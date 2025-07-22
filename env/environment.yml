@@ -12,4 +12,6 @@ dependencies:
   - pip:
       - playwright
       - crawl4ai
+      - PyMuPDF
+      - mistralai
 

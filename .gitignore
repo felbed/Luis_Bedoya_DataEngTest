@@ -1,0 +1,5 @@
+# Archivos de entorno
+.env
+
+# Archivos compilados y caché de Python
+__pycache__/

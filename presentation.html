@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pipeline de Procesamiento de Informes Financieros</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Slide 1 - Title */
+        .slide-1 {
+            background: linear-gradient(135deg, #2c5aa0 0%, #1a365d 100%);
+            color: white;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide-1 h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            line-height: 1.2;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .slide-1 .subtitle {
+            font-size: 1.8rem;
+            opacity: 0.9;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .slide-1 .presenter {
+            font-size: 1.3rem;
+            opacity: 0.8;
+            font-weight: 400;
+        }
+
+        .logo-placeholder {
+            width: 120px;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            margin: 0 auto 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Slide 2 - Challenge */
+        .slide-2 {
+            background: linear-gradient(135deg, #38b2ac 0%, #2c7a7b 100%);
+            color: white;
+        }
+
+        .slide-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .challenge-intro {
+            text-align: center;
+            font-size: 1.3rem;
+            margin-bottom: 50px;
+            opacity: 0.95;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .three-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 40px;
+            flex: 1;
+        }
+
+        .column {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .column:hover {
+            transform: translateY(-10px);
+        }
+
+        .column-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .column h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .column p {
+            font-size: 1rem;
+            line-height: 1.5;
+            opacity: 0.9;
+        }
+
+        /* Slide 3 - Tech Stack */
+        .slide-3 {
+            background: linear-gradient(135deg, #4299e1 0%, #2b6cb0 100%);
+            color: white;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 40px;
+            flex: 1;
+        }
+
+        .tech-category {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .tech-category h3 {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .tech-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .tech-item strong {
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .tech-item span {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        /* Slide 4 - Architecture */
+        .slide-4 {
+            background: linear-gradient(135deg, #805ad5 0%, #553c9a 100%);
+            color: white;
+        }
+
+        .architecture-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            flex: 1;
+        }
+
+        .diagram-placeholder {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .diagram-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('task3/diagram.png') center/contain no-repeat;
+            opacity: 0.9;
+        }
+
+        .key-points {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .key-point {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .key-point h4 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .key-point p {
+            font-size: 0.95rem;
+            line-height: 1.4;
+            opacity: 0.9;
+        }
+
+        /* Slide 5 - Results */
+        .slide-5 {
+            background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
+            color: #1a202c;
+        }
+
+        .slide-5 .slide-title {
+            color: #1a202c;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            flex: 1;
+        }
+
+        .metrics-section {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .metric-card h4 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #1a202c;
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2b6cb0;
+            margin-bottom: 10px;
+        }
+
+        .before-after {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .before-after h4 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #1a202c;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .comparison-item {
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .comparison-item h5 {
+            margin-bottom: 15px;
+            color: #1a202c;
+            font-weight: 600;
+        }
+
+        .comparison-item p {
+            font-style: italic;
+            color: #2d3748;
+        }
+
+        .before {
+            background: linear-gradient(135deg, #fed7d7 0%, #fc8181 100%);
+        }
+
+        .after {
+            background: linear-gradient(135deg, #c6f6d5 0%, #68d391 100%);
+        }
+
+        /* Slide 6 - Future */
+        .slide-6 {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            color: white;
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            flex: 1;
+        }
+
+        .timeline-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 15px;
+            height: 15px;
+            background: #38b2ac;
+            border-radius: 50%;
+            box-shadow: 0 0 0 3px rgba(56, 178, 172, 0.3);
+        }
+
+        .timeline-item h4 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .timeline-item ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        .timeline-item li {
+            margin-bottom: 10px;
+            position: relative;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .timeline-item li::before {
+            content: '→';
+            position: absolute;
+            left: -20px;
+            color: #38b2ac;
+            font-weight: bold;
+        }
+
+        /* Navigation */
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            color: white;
+            font-size: 1rem;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide.active .column,
+        .slide.active .tech-category,
+        .slide.active .key-point,
+        .slide.active .metric-card,
+        .slide.active .timeline-item {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .slide.active .column:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .slide.active .column:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .slide.active .tech-category:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .slide.active .tech-category:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .slide.active .timeline-item:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .slide.active .timeline-item:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="presentation-container">
+        <div class="slide-counter">
+            <span id="current-slide">1</span> / <span id="total-slides">6</span>
+        </div>
+
+        <!-- Slide 1: Title -->
+        <div class="slide slide-1 active" data-slide="1">
+            <div class="logo-placeholder">📊</div>
+            <h1>Pipeline Automatizado de Procesamiento de Informes Financieros</h1>
+            <div class="subtitle">De PDF a Datos Accionables con IA</div>
+            <div class="presenter">Presentado por: Luis Felipe Bedoya Martínez</div>
+        </div>
+
+        <!-- Slide 2: Challenge -->
+        <div class="slide slide-2" data-slide="2">
+            <h2 class="slide-title">El Reto y Nuestro Enfoque</h2>
+            <div class="challenge-intro">
+                <strong>El Reto:</strong> Datos Críticos Atrapados en PDFs<br>
+                La extracción manual de datos de informes financieros es lenta, propensa a errores y no escala. Nuestra
+                solución automatiza este proceso en tres pasos clave.
+            </div>
+            <div class="three-columns">
+                <div class="column">
+                    <span class="column-icon">📥</span>
+                    <h3>1. Ingesta</h3>
+                    <p>Automatizamos la descarga y organización de todos los informes trimestrales, creando una Capa
+                        Bronze fiable y centralizada.</p>
+                </div>
+                <div class="column">
+                    <span class="column-icon">🧠</span>
+                    <h3>2. Extracción IA</h3>
+                    <p>Utilizamos Mistral AI OCR para extraer todas las tablas con una precisión excepcional, aplicando
+                        una lógica inteligente para detectar títulos y corregir formatos.</p>
+                </div>
+                <div class="column">
+                    <span class="column-icon">📊</span>
+                    <h3>3. Normalización</h3>
+                    <p>Transformamos las tablas semi-estructuradas en un formato largo y limpio, listo para el análisis,
+                        que se almacena en nuestra Capa Silver como un archivo Parquet.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Tech Stack -->
+        <div class="slide slide-3" data-slide="3">
+            <h2 class="slide-title">Herramientas y Stack Tecnológico</h2>
+            <div style="text-align: center; font-size: 1.2rem; margin-bottom: 40px;">
+                Tecnología de Vanguardia para Resultados Robustos
+            </div>
+            <div class="tech-grid">
+                <div class="tech-category">
+                    <h3>🤖 IA & Extracción</h3>
+                    <div class="tech-item">
+                        <strong>Mistral AI</strong>
+                        <span>Para un reconocimiento de tablas y texto (OCR) de última generación, superando a las
+                            herramientas tradicionales.</span>
+                    </div>
+                </div>
+                <div class="tech-category">
+                    <h3>🔧 Procesamiento & Almacenamiento</h3>
+                    <div class="tech-item">
+                        <strong>Python & Pandas</strong>
+                        <span>El estándar de la industria para una manipulación de datos robusta y flexible.</span>
+                    </div>
+                    <div class="tech-item">
+                        <strong>Apache Parquet</strong>
+                        <span>Para un almacenamiento columnar eficiente, optimizado para consultas analíticas.</span>
+                    </div>
+                </div>
+                <div class="tech-category">
+                    <h3>☁️ Arquitectura Cloud</h3>
+                    <div class="tech-item">
+                        <strong>Microsoft Azure</strong>
+                        <span>Un ecosistema serverless y orientado a eventos (Data Factory, Blob Storage, Functions)
+                            para una escalabilidad infinita y eficiencia de costos.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Architecture -->
+        <div class="slide slide-4" data-slide="4">
+            <h2 class="slide-title">Arquitectura del Pipeline en la Nube</h2>
+            <div class="architecture-content">
+                <div class="diagram-placeholder">
+                    🏗️
+                </div>
+                <div class="key-points">
+                    <div class="key-point">
+                        <h4>✅ Totalmente Automatizado</h4>
+                        <p>El pipeline se activa automáticamente con la llegada de nuevos archivos. Cero intervención
+                            manual.</p>
+                    </div>
+                    <div class="key-point">
+                        <h4>✅ Serverless y Eficiente</h4>
+                        <p>La infraestructura escala bajo demanda, desde 1 hasta 1,000 PDFs, pagando solo por el cómputo
+                            utilizado.</p>
+                    </div>
+                    <div class="key-point">
+                        <h4>✅ Modular y Resiliente</h4>
+                        <p>Cada etapa es independiente, con monitoreo y alertas integradas, garantizando una operación
+                            fiable y fácil de mantener.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Results -->
+        <div class="slide slide-5" data-slide="5">
+            <h2 class="slide-title" style="color: #2d3748;">Resultados: Precisión y Calidad de Datos Comprobadas</h2>
+            <div style="text-align: center; font-size: 1.2rem; margin-bottom: 40px; color: #4a5568;">
+                El pipeline no solo funciona, sino que entrega resultados de alta calidad sobre el informe del Q1 2025.
+            </div>
+            <div class="results-grid">
+                <div class="metrics-section">
+                    <div class="metric-card">
+                        <h4>Cobertura de Extracción</h4>
+                        <div class="metric-value">54</div>
+                        <p>tablas extraídas con éxito del informe</p>
+                        <div style="margin-top: 15px; font-weight: 600; color: #38a169;">100% de cobertura de todas las
+                            tablas estructuradas identificadas</div>
+                    </div>
+                    <div class="metric-card">
+                        <h4>Calidad de Datos</h4>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="margin: 10px 0;">✅ Títulos asignados inteligentemente</li>
+                            <li style="margin: 10px 0;">✅ Valores numéricos limpiados y estandarizados</li>
+                            <li style="margin: 10px 0;">✅ Manejo automático de $, comas y negativos</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="before-after">
+                    <h4>Transformación de Datos</h4>
+                    <div class="comparison">
+                        <div class="comparison-item before">
+                            <h5 style="margin-bottom: 15px; color: #2d3748;">Antes (PDF / OCR Crudo)</h5>
+                            <p style="font-style: italic; color: #4a5568;">Una tabla desestructurada, difícil de
+                                consultar.</p>
+                            <div
+                                style="margin-top: 15px; padding: 10px; background: rgba(0,0,0,0.1); border-radius: 5px; font-family: monospace; font-size: 0.8rem;">
+                                NOTE 21. RETAINED EARNINGS &lt;br&gt; ` Total
+                            </div>
+                        </div>
+                        <div class="comparison-item after">
+                            <h5 style="margin-bottom: 15px; color: #2d3748;">Después (Silver Layer - Parquet)</h5>
+                            <p style="font-style: italic; color: #4a5568;">Múltiples filas limpias y listas para Power
+                                BI o Excel.</p>
+                            <div
+                                style="margin-top: 15px; padding: 10px; background: rgba(0,0,0,0.1); border-radius: 5px; font-family: monospace; font-size: 0.8rem;">
+                                Table: "Retained Earnings"<br>
+                                Column: "Total"<br>
+                                Value: 123,456,789
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Future -->
+        <div class="slide slide-6" data-slide="6">
+            <h2 class="slide-title">Más Allá de la Extracción: Hacia la Inteligencia de Datos</h2>
+            <div style="text-align: center; font-size: 1.2rem; margin-bottom: 40px;">
+                Este pipeline es la base para futuras capacidades de alto valor.
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h4>🎯 Corto Plazo (Escalar)</h4>
+                    <ul>
+                        <li>Procesar el Backlog Histórico: Ejecutar el pipeline sobre todos los informes desde 2021 para
+                            construir una base de datos histórica completa.</li>
+                    </ul>
+                </div>
+                <div class="timeline-item">
+                    <h4>🧠 Mediano Plazo (Inteligencia)</h4>
+                    <ul>
+                        <li>Implementar la Capa Gold (RAG): Activar la generación de embeddings y el índice de búsqueda
+                            semántica.</li>
+                        <li>Habilitar Q&A en Lenguaje Natural: Permitir a los usuarios hacer preguntas como: "¿Cuál ha
+                            sido la tendencia de los ingresos desde 2022?" directamente a los datos.</li>
+                    </ul>
+                </div>
+                <div class="timeline-item">
+                    <h4>🚀 Largo Plazo (Expandir)</h4>
+                    <ul>
+                        <li>Extender a Otros Documentos: Adaptar el pipeline para procesar otros tipos de documentos,
+                            como informes anuales, presentaciones a inversores o análisis de la competencia.</li>
+                    </ul>
+                </div>
+            </div>
+            <div
+                style="text-align: center; font-size: 1.3rem; font-weight: 600; margin-top: 40px; padding: 20px; background: rgba(56,178,172,0.2); border-radius: 15px; backdrop-filter: blur(10px);">
+                Este proyecto no es solo una solución de extracción;<br>
+                <strong>es el primer paso hacia una estrategia de datos impulsada por IA.</strong>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-btn" onclick="prevSlide()">‹</button>
+            <button class="nav-btn" onclick="nextSlide()">›</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 6;
+
+        function showSlide(slideNumber) {
+            // Hide all slides
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+
+            // Show current slide
+            document.querySelector(`.slide[data-slide="${slideNumber}"]`).classList.add('active');
+
+            // Update counter
+            document.getElementById('current-slide').textContent = slideNumber;
+
+            currentSlide = slideNumber;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                showSlide(currentSlide + 1);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                prevSlide();
+            }
+        });
+
+        // Initialize
+        document.getElementById('total-slides').textContent = totalSlides;
+        showSlide(1);
+    </script>
+</body>
+
+</html>

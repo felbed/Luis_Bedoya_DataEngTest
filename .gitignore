@@ -3,3 +3,6 @@
 
 # Archivos compilados y caché de Python
 __pycache__/
+
+# Archivos MMD Text de los pipelines
+*.mmd
